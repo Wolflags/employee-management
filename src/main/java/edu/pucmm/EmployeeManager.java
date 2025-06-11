@@ -65,10 +65,25 @@ public class EmployeeManager {
         if (!isSalaryValidForPosition(newPosition, employee.getSalary())) {
             throw new InvalidSalaryException("Current salary is not within the range for the new position");
         }
+        if(employee.getSalary()>=newPosition.getMinSalary()*0.9){
+            employee.setSalary(newPosition.getMinSalary());
+        }
         employee.setPosition(newPosition);
     }
 
     public boolean isSalaryValidForPosition(Position position, double salary) {
+        if (position == null) {
+            return false;
+        }
+        if (salary < 0) {
+            return false;
+        }
+        if (position.getMinSalary() < 0 || position.getMaxSalary() < 0) {
+            return false;
+        }
+        if(salary>=position.getMinSalary()*0.9 && salary<=position.getMaxSalary()) {
+            return true;
+        }
         return salary >= position.getMinSalary() && salary <= position.getMaxSalary();
     }
 }
